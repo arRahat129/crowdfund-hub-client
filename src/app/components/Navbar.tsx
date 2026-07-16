@@ -24,6 +24,9 @@ export default function Navbar() {
           <Link href="/creator" className="transition hover:text-cyan-300">
             Creator
           </Link>
+          <Link href="/admin" className="transition hover:text-cyan-300">
+            Admin
+          </Link>
           <Link href="/login" className="rounded-full border border-slate-700 px-3 py-2 transition hover:border-cyan-400 hover:text-cyan-300">
             Login
           </Link>
