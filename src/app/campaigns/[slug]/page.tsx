@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 const campaignDetails: Record<string, { title: string; creator: string; goal: string; raised: string; story: string; highlights: string[] }> = {
   "community-solar-co-op": {
@@ -29,6 +32,35 @@ const campaignDetails: Record<string, { title: string; creator: string; goal: st
 
 export default function CampaignDetailPage({ params }: { params: { slug: string } }) {
   const campaign = campaignDetails[params.slug];
+  const [amount, setAmount] = useState("50");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage("Please log in before contributing.");
+      return;
+    }
+
+    const response = await fetch("http://localhost:5000/api/contributions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ campaignTitle: campaign?.title, campaignSlug: params.slug, amount: Number(amount) })
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      setMessage(data.message || "Contribution failed");
+      return;
+    }
+
+    setMessage("Contribution submitted successfully. It is pending review.");
+  };
 
   if (!campaign) {
     return (
@@ -81,9 +113,20 @@ export default function CampaignDetailPage({ params }: { params: { slug: string 
               <div className="h-3 w-3/4 rounded-full bg-cyan-500" />
             </div>
 
-            <button className="mt-8 w-full rounded-full bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">
-              Support this campaign
-            </button>
+            <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+              <input
+                type="number"
+                min="1"
+                value={amount}
+                onChange={(event) => setAmount(event.target.value)}
+                className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100"
+                placeholder="Credits"
+              />
+              <button type="submit" className="w-full rounded-full bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">
+                Support this campaign
+              </button>
+            </form>
+            {message ? <p className="mt-3 text-sm text-cyan-300">{message}</p> : null}
           </div>
         </div>
       </div>
