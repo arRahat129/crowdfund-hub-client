@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NotificationsDropdown from "./NotificationsDropdown";
 
 export default function Navbar() {
   return (
@@ -21,12 +22,16 @@ export default function Navbar() {
           <Link href="/contributions" className="transition hover:text-cyan-300">
             Contributions
           </Link>
+          <Link href="/credits" className="transition hover:text-cyan-300">
+            Credits
+          </Link>
           <Link href="/creator" className="transition hover:text-cyan-300">
             Creator
           </Link>
           <Link href="/admin" className="transition hover:text-cyan-300">
             Admin
           </Link>
+          <NotificationsDropdown />
           <Link href="/login" className="rounded-full border border-slate-700 px-3 py-2 transition hover:border-cyan-400 hover:text-cyan-300">
             Login
           </Link>

@@ -1,8 +1,12 @@
 import Link from "next/link";
+import DashboardShell from "../components/DashboardShell";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 export default function DashboardPage() {
   return (
+    <ProtectedRoute>
     <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100">
+      <DashboardShell>
       <div className="mx-auto max-w-6xl rounded-3xl border border-slate-800 bg-slate-900/80 p-8 shadow-2xl shadow-cyan-950/30">
         <p className="text-sm text-cyan-300">Dashboard</p>
         <h1 className="mt-2 text-3xl font-semibold">Welcome to your workspace</h1>
@@ -24,6 +28,8 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+      </DashboardShell>
     </main>
+    </ProtectedRoute>
   );
 }

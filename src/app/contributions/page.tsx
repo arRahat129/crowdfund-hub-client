@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ProtectedRoute from "../components/ProtectedRoute";
+import { apiRequest } from "../lib/api";
 
 export default function ContributionsPage() {
   const [contributions, setContributions] = useState<any[]>([]);
@@ -11,14 +13,13 @@ export default function ContributionsPage() {
       return;
     }
 
-    fetch("http://localhost:5000/api/contributions", {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then((res) => res.json())
-      .then((data) => setContributions(data.contributions || []));
+    apiRequest("/api/contributions")
+      .then((data) => setContributions(data.contributions || []))
+      .catch(() => setContributions([]));
   }, []);
 
   return (
+    <ProtectedRoute>
     <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100">
       <div className="mx-auto max-w-6xl rounded-3xl border border-slate-800 bg-slate-900/80 p-8">
         <h1 className="text-3xl font-semibold">My contributions</h1>
@@ -52,5 +53,6 @@ export default function ContributionsPage() {
         </div>
       </div>
     </main>
+    </ProtectedRoute>
   );
 }

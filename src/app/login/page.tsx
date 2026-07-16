@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { apiRequest } from "../lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,20 +14,17 @@ export default function LoginPage() {
     event.preventDefault();
     setMessage("");
 
-    const response = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
-    });
+    try {
+      const data = await apiRequest("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(form)
+      });
 
-    const data = await response.json();
-    if (!response.ok) {
-      setMessage(data.message || "Login failed");
-      return;
+      localStorage.setItem("token", data.token);
+      router.push("/dashboard");
+    } catch (error: any) {
+      setMessage(error.message || "Login failed");
     }
-
-    localStorage.setItem("token", data.token);
-    router.push("/");
   };
 
   return (
