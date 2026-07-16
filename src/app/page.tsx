@@ -1,65 +1,91 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const featuredCampaigns = [
+  {
+    title: "Community Solar Co-op",
+    creator: "Mina Chen",
+    goal: "$24,000",
+    raised: "$18,500",
+    status: "Funding strong"
+  },
+  {
+    title: "Riverside Food Hub",
+    creator: "Daniel Ortiz",
+    goal: "$15,000",
+    raised: "$12,100",
+    status: "Nearly funded"
+  },
+  {
+    title: "SkillShare Mobile Lab",
+    creator: "Ava Thompson",
+    goal: "$30,000",
+    raised: "$22,400",
+    status: "Popular"
+  }
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-slate-950 text-slate-100">
+      <section className="mx-auto flex max-w-7xl flex-col gap-10 px-6 py-20 lg:flex-row lg:items-center lg:px-8">
+        <div className="max-w-2xl">
+          <p className="mb-4 inline-flex rounded-full border border-cyan-400/40 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-300">
+            Crowdfund Hub • launch, support, grow
           </p>
+          <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
+            Finance meaningful projects with a modern community-first platform.
+          </h1>
+          <p className="mt-6 text-lg text-slate-300">
+            Creators can launch campaigns, supporters can back ideas, and admins can guide every milestone from one place.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link href="/explore" className="rounded-full bg-cyan-500 px-6 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">
+              Explore campaigns
+            </Link>
+            <Link href="/register" className="rounded-full border border-slate-700 px-6 py-3 font-medium text-slate-100 transition hover:border-cyan-400 hover:text-cyan-300">
+              Join as a creator
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="w-full max-w-xl rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-cyan-950/30">
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5">
+            <p className="text-sm text-cyan-300">Live campaign snapshot</p>
+            <div className="mt-4 space-y-4">
+              {featuredCampaigns.map((campaign) => (
+                <div key={campaign.title} className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <h2 className="font-semibold text-white">{campaign.title}</h2>
+                    <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs text-emerald-300">
+                      {campaign.status}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-slate-400">by {campaign.creator}</p>
+                  <div className="mt-3 flex items-center justify-between text-sm text-slate-300">
+                    <span>Goal {campaign.goal}</span>
+                    <span>Raised {campaign.raised}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8">
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            { title: "Fast onboarding", body: "Creators can launch their idea in minutes with guided steps." },
+            { title: "Flexible support", body: "Supporters can contribute credits and track their activity over time." },
+            { title: "Trusted moderation", body: "Admins review campaigns and withdrawals to keep the community healthy." }
+          ].map((item) => (
+            <div key={item.title} className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-400">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
